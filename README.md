@@ -5,4 +5,4 @@
 - OpenCV 2
 - Run make
 
-#The application will start recording after pressing the 'r' key
+The application will start recording after pressing the 'r' key
