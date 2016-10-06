@@ -35,6 +35,7 @@
 #include <opencv/highgui.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/time.h>
 #include <unistd.h>
 
 using namespace xn;
@@ -42,7 +43,7 @@ using namespace xn;
 //---------------------------------------------------------------------------
 // Defines
 //---------------------------------------------------------------------------
-#define SAMPLE_XML_PATH "./SamplesConfig.xml"
+#define SAMPLE_XML_PATH "../SamplesConfig.xml"
 
 #define GL_WIN_SIZE_X 1280
 #define GL_WIN_SIZE_Y 1024
@@ -194,9 +195,9 @@ static void SaveImage(char *img, int width, int height)
 	    p[0] = CV_IMWRITE_JPEG_QUALITY;
 	    p[1] = 10;
 	    p[2] = 0;
-	    int tstamp = (int)time(NULL);
-	 
-
+        struct timeval tp;
+        gettimeofday(&tp,NULL);
+	    long long tstamp = (long long) (tp.tv_sec * 1000 + tp.tv_usec / 1000);
 
 	    std::string file_name = dir + "/depth_" + itos(tstamp) + ".jpg";
 	    printf("%s", file_name.c_str());
