@@ -37,6 +37,7 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <sstream>
 
 using namespace xn;
 
@@ -122,9 +123,10 @@ float* getDepthHistogram(const xn::DepthMetaData& dmd)
         {
             pDepthHist[nIndex] = (unsigned int)(256 * (1.0f - (pDepthHist[nIndex] / nNumberOfPoints)));
         }
-        printf("Number of points with non-zero values in depth map: %d\n",
-                nNumberOfPoints);
-    } else
+        // printf("Number of points with non-zero values in depth map: %d\n",
+                // nNumberOfPoints);
+    }
+    else
     {
         printf("WARNING: depth image has no non-zero pixels\n");
     }
@@ -197,10 +199,11 @@ static void SaveImage(char *img, int width, int height)
 	    p[2] = 0;
         struct timeval tp;
         gettimeofday(&tp,NULL);
-	    long long tstamp = (long long) (tp.tv_sec * 1000 + tp.tv_usec / 1000);
+	    long int tstamp = (long int) (tp.tv_sec * 1000 + tp.tv_usec / 1000);
 
-	    std::string file_name = dir + "/depth_" + itos(tstamp) + ".jpg";
-	    printf("%s", file_name.c_str());
+        std::stringstream tss;
+        tss << tstamp;
+	    std::string file_name = dir + "/" + tss.str() + ".jpg";
 	 
 	    cv::Mat rgb(height, width, CV_8UC3, img);
 	    IplImage* image2;
@@ -208,8 +211,8 @@ static void SaveImage(char *img, int width, int height)
 	    IplImage ipltemp=rgb;
 	    cvCopy(&ipltemp,image2);
 	    cvSaveImage(file_name.c_str(), image2, p);
+        printf("[%ld] Saving image %s\n", tstamp, file_name.c_str());
     }
-    
 }
 
 void glutDisplay (void)
@@ -334,6 +337,7 @@ void glutDisplay (void)
 	int nYRes = g_depthMD.FullYRes();
 	unsigned char* depthImage = transformDepthImageIntoGrayScale(g_depthMD);
 	SaveImage((char*)depthImage, g_depthMD.FullXRes(), g_depthMD.FullYRes());
+    free(depthImage);
 	// upper left
 	glTexCoord2f(0, 0);
 	glVertex2f(0, 0);
@@ -389,7 +393,7 @@ int main(int argc, char* argv[])
 
 	int tstamp = (int)time(NULL);
    	struct stat st = {0};
-	dir = "./exp_" + itos(tstamp);
+	dir = "/home/mihai/workspace/toyz/Save-Kinect-Depth/Data/exp_" + itos(tstamp);
 	if (stat(dir.c_str(), &st) == -1) {
 		mkdir(dir.c_str(), 0700);
     	}
