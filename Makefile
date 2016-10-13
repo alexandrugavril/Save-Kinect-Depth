@@ -12,7 +12,7 @@ ifeq ("$(OSTYPE)","Darwin")
 	LDFLAGS += -framework OpenGL -framework GLUT
 else
 	# USED_LIBS += glut GL opencv_core opencv_highgui opencv_imgcodecs
-	USED_LIBS += glut GL opencv_core opencv_highgui pthread
+	USED_LIBS += glut GL opencv_core opencv_highgui opencv_imgproc pthread
 endif
 
 USED_LIBS += OpenNI 
