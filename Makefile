@@ -11,7 +11,8 @@ EXE_NAME = SaveDepth
 ifeq ("$(OSTYPE)","Darwin")
 	LDFLAGS += -framework OpenGL -framework GLUT
 else
-	USED_LIBS += glut GL opencv_core opencv_highgui opencv_imgcodecs
+	# USED_LIBS += glut GL opencv_core opencv_highgui opencv_imgcodecs
+	USED_LIBS += glut GL opencv_core opencv_highgui
 endif
 
 USED_LIBS += OpenNI 
