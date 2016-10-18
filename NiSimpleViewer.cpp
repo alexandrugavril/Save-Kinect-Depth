@@ -134,7 +134,8 @@ float* getDepthHistogram(const xn::DepthMetaData& dmd)
     return pDepthHist;
 }
 
-unsigned char* transformDepthImageIntoGrayScale(const xn::DepthMetaData& dmd) {
+unsigned char* transformDepthImageIntoGrayScale(const xn::DepthMetaData& dmd)
+{
   XnUInt16 g_nXRes = dmd.XRes();
   XnUInt16 g_nYRes = dmd.YRes();
   unsigned int nX, nY;
@@ -203,14 +204,14 @@ static void SaveImage(char *img, int width, int height)
 
         std::stringstream tss;
         tss << tstamp;
-	    std::string file_name = dir + "/" + tss.str() + ".jpg";
-	 
-	    cv::Mat rgb(height, width, CV_8UC3, img);
-	    IplImage* image2;
-	    image2 = cvCreateImage(cvSize(rgb.cols,rgb.rows),8,3);
-	    IplImage ipltemp=rgb;
-	    cvCopy(&ipltemp,image2);
-	    cvSaveImage(file_name.c_str(), image2, p);
+        std::string file_name = dir + "/" + tss.str() + ".jpg";
+
+        cv::Mat rgb(height, width, CV_8UC3, img);
+        IplImage* image2;
+        image2 = cvCreateImage(cvSize(rgb.cols,rgb.rows),8,3);
+        IplImage ipltemp=rgb;
+        cvCopy(&ipltemp,image2);
+        cvSaveImage(file_name.c_str(), image2, p);
         printf("[%ld] Saving image %s\n", tstamp, file_name.c_str());
     }
 }
@@ -393,10 +394,11 @@ int main(int argc, char* argv[])
 
 	int tstamp = (int)time(NULL);
    	struct stat st = {0};
-	dir = "/home/mihai/workspace/toyz/Save-Kinect-Depth/Data/exp_" + itos(tstamp);
-	if (stat(dir.c_str(), &st) == -1) {
-		mkdir(dir.c_str(), 0700);
-    	}
+	dir = "./default-kinect-depth-recordings";
+	// if (stat(dir.c_str(), &st) == -1)
+    // {
+	// 	mkdir(dir.c_str(), 0700);
+    // }
 	if (rc == XN_STATUS_NO_NODE_PRESENT)
 	{
 		XnChar strError[1024];
